@@ -293,6 +293,9 @@ export default {
       },
     };
   },
+  mounted() {
+    console.log(this.avatarCrop);
+  },
   methods: {
     async onSubmit() {
       try {
@@ -326,12 +329,29 @@ export default {
       }
     },
     async onSubmitRegister() {
-      const response = await this.$axios.post(`register/`, this.newUser);
-      const user = response.data.user;
-      const accessToken = response.data.access_token;
-      this.$auth.strategy.token.set(accessToken);
-      this.$auth.setUser(user);
-      this.$router.push('/');
+      await this.avatarCrop.generateBlob(async (blob) => {
+        const form = new FormData();
+
+        form.append('name', this.newUser.name);
+        form.append('email', this.newUser.email);
+        form.append('phone', this.newUser.phone);
+        form.append('password', this.newUser.password);
+        form.append(
+          'password_confirmation',
+          this.newUser.password_confirmation
+        );
+
+        if (this.avatarCrop.hasImage()) {
+          form.append('avatar', blob, 'avatar.jpg');
+        }
+
+        const response = await this.$axios.post(`register/`, form);
+        const user = response.data.user;
+        const accessToken = response.data.access_token;
+        this.$auth.strategy.token.set(accessToken);
+        this.$auth.setUser(user);
+        this.$router.push('/');
+      });
     },
   },
 };

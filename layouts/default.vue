@@ -20,10 +20,10 @@ vue/multi-word-component-names */
           </a>
         </li>
         <li>
-          <a class="btn btn-ghost">
+          <NuxtLink to="/datasets" class="btn btn-ghost">
             <fa-icon icon="coffee" class="icon-menu" />
-            <span> Item with icon </span>
-          </a>
+            <span> Datasets </span>
+          </NuxtLink>
         </li>
         <li>
           <a class="btn btn-ghost">
@@ -47,9 +47,12 @@ vue/multi-word-component-names */
 
         <ul class="menu items-stretch horizontal">
           <li>
+            <span>Temas:</span>
+          </li>
+          <li class="mr-3">
             <select
               v-model="selectedTheme"
-              class="select select:select-primary my-auto max-w-xs"
+              class="select select-bordered select-sm select-primary w-full max-w-xs m-2"
             >
               <option disabled="disabled" selected="selected">Tema</option>
               <option v-for="(item, index) in themeLight" :key="index">
@@ -160,7 +163,7 @@ export default {
         return this.logo_mini_light;
       }
       return this.logo_mini_dark;
-    }
+    },
   },
   watch: {
     selectedTheme(theme) {
@@ -240,6 +243,10 @@ export default {
 
 .sidebar-show > ul > li > a {
   @apply m-0 justify-start;
+}
+
+.nuxt-link-active {
+  @apply active;
 }
 
 .content {
