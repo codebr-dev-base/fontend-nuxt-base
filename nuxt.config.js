@@ -1,0 +1,200 @@
+export default {
+  globalName: 'CodeBR.dev',
+  env: {
+    apiUrl: process.env.API_BASE_URL,
+    baseUrl: process.env.BASE_URL,
+  },
+  // Global page headers: https://go.nuxtjs.dev/config-head
+  head: {
+    title: 'nuxt-tailwind',
+    meta: [
+      { charset: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { hid: 'description', name: 'description', content: '' },
+      { name: 'format-detection', content: 'telephone=no' },
+    ],
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    bodyAttrs: {
+      'data-theme': 'emerald',
+    },
+  },
+
+  // Global CSS: https://go.nuxtjs.dev/config-css
+  css: ['~/assets/css/tailwind.css', 'vue-croppa/dist/vue-croppa.css'],
+
+  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
+  plugins: [
+    { src: '~/plugins/vee-validate' },
+    { src: '~/plugins/vue-croppa' },
+    { src: '~/plugins/v-mask' },
+  ],
+
+  // Auto import components: https://go.nuxtjs.dev/config-components
+  components: true,
+
+  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
+  buildModules: [
+    // https://go.nuxtjs.dev/eslint
+    '@nuxtjs/eslint-module',
+    // https://go.nuxtjs.dev/stylelint
+    '@nuxtjs/stylelint-module',
+    // https://tailwindcss.nuxtjs.org
+    '@nuxtjs/tailwindcss',
+    // https://github.com/nuxt/postcss8
+    '@nuxt/postcss8',
+    // https://github.com/nuxt-community/fontawesome-module
+    ['@nuxtjs/fontawesome', { component: 'fa', suffix: true }],
+    // https://github.com/nuxt-community/dotenv-module
+    '@nuxtjs/dotenv',
+  ],
+
+  // Modules: https://go.nuxtjs.dev/config-modules
+  modules: [
+    // https://go.nuxtjs.dev/axios
+    '@nuxtjs/axios',
+    // https://dev.auth.nuxtjs.org/guide/setup
+    '@nuxtjs/auth-next',
+    // https://go.nuxtjs.dev/pwa
+    '@nuxtjs/pwa',
+    // https://github.com/Maronato/vue-toastification/tree/main
+    [
+      'vue-toastification/nuxt',
+      {
+        timeout: 3000,
+      },
+    ],
+  ],
+  // Config router
+  router: {
+    middleware: ['auth'],
+  },
+
+  // Axios module configuration: https://go.nuxtjs.dev/config-axios
+  axios: {
+    // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
+    baseURL: `${process.env.API_BASE_URL}/api/`,
+    // proxy: true,
+    credentials: true,
+  },
+
+  // PWA module configuration: https://go.nuxtjs.dev/pwa
+  pwa: {
+    manifest: {
+      lang: 'pt-br',
+    },
+  },
+
+  // Build Configuration: https://go.nuxtjs.dev/config-build
+  build: {
+    transpile: ['vee-validate/dist/rules'],
+    postcss: {
+      plugins: {
+        tailwindcss: {},
+        autoprefixer: {},
+        'postcss-url': false,
+        'postcss-import': true,
+        'postcss-nested': {},
+        'postcss-responsive-type': {},
+        'postcss-hexrgba': {},
+      },
+      preset: {
+        // Change the postcss-preset-env settings
+        autoprefixer: {
+          grid: true,
+        },
+      },
+    },
+  },
+
+  // configuration tailwindcss
+  tailwindcss: {
+    configPath: 'tailwind.config.js',
+    exposeConfig: true,
+    config: {},
+    injectPosition: 0,
+  },
+  fontawesome: {
+    icons: {
+      solid: [
+        'faHome',
+        'faSpinner',
+        'faCoffee',
+        'faEdit',
+        'faCircle',
+        'faArrowCircleRight',
+        'faBars',
+        'faSignOutAlt',
+        'faSignInAlt',
+      ],
+      regular: [],
+      light: [],
+      duotone: [],
+      brands: [
+        'faSlackHash',
+        'faTwitter',
+        'faYoutube',
+        'faFacebook',
+        'faGoogle',
+      ],
+    },
+  },
+  nuxtValidate: {
+    lang: 'pt_BR',
+  },
+
+  auth: {
+    cookie: {
+      prefix: 'auth.',
+      options: {
+        path: '/',
+        domain: 'localhost',
+        secure: true,
+      },
+    },
+    redirect: {
+      login: '/login',
+      logout: '/',
+      callback: '/login',
+      home: '/',
+    },
+    strategies: {
+      local: {
+        url: `${process.env.API_BASE_URL}/api`,
+        token: {
+          type: 'Bearer',
+          property: 'plainTextToken',
+          global: true,
+          required: true,
+        },
+        user: {
+          property: false,
+          autoFetch: true,
+        },
+        endpoints: {
+          login: { url: '/login/', method: 'post' },
+          logout: { url: '/logout/', method: 'post' },
+          user: { url: '/me/', method: 'post' },
+        },
+      },
+      laravelSanctum: {
+        provider: 'laravel/sanctum',
+        url: `${process.env.API_BASE_URL}`,
+        token: {
+          type: 'Bearer',
+          property: 'plainTextToken',
+          global: true,
+          required: true,
+        },
+        user: {
+          property: false,
+          autoFetch: true,
+        },
+        endpoints: {
+          login: { url: '/login/', method: 'post' },
+          logout: { url: '/logout/', method: 'post' },
+          user: { url: '/me/', method: 'get' },
+        },
+      },
+    },
+  },
+};
