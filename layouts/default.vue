@@ -196,7 +196,7 @@ export default {
 </script>
 <style lang="postcss" scoped>
 .layout {
-  @apply flex bg-base-300 text-base-content min-h-screen w-screen max-w-full;
+  @apply flex bg-base-300 text-base-content min-h-max w-screen max-w-full h-screen;
 }
 
 .sidebar {
@@ -250,12 +250,12 @@ export default {
 }
 
 .content {
-  @apply min-h-full flex-auto flex flex-col h-screen;
+  @apply min-h-max flex-auto flex flex-col;
 }
 
 .top-menu {
   @apply flex justify-between items-center;
-  @apply bg-base-200 h-20 shadow-lg m-2 rounded-lg;
+  @apply bg-base-200 shadow-lg m-2 rounded-lg;
   @apply border-b-2 border-b-primary;
 }
 
@@ -273,7 +273,7 @@ export default {
 }
 
 .content-main {
-  @apply bg-base-200 h-screen shadow-lg m-2 rounded-lg p-2;
+  @apply h-5/6 bg-base-200 min-h-max shadow-lg m-2 rounded-lg p-2;
 }
 
 .footer {

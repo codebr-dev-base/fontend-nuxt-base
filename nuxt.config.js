@@ -50,6 +50,7 @@ export default {
     { src: '~/plugins/vee-validate' },
     { src: '~/plugins/vue-croppa' },
     { src: '~/plugins/v-mask' },
+    { src: '~/plugins/vue-clickaway' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -148,8 +149,9 @@ export default {
         'faBars',
         'faSignOutAlt',
         'faSignInAlt',
+        'faEllipsisH',
       ],
-      regular: [],
+      regular: ['faEye'],
       light: [],
       duotone: [],
       brands: [
